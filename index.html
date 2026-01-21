@@ -6,16 +6,21 @@
   <title>Send Email</title>
   <style>
     body { font-family: system-ui, Arial, sans-serif; padding: 24px; line-height: 1.4; }
-    .btn { display:inline-block; padding:14px 18px; border:1px solid #000; border-radius:10px; text-decoration:none; }
+    .btn { display:block; padding:14px 18px; border:1px solid #000; border-radius:10px; text-decoration:none; margin: 10px 0; text-align:center; }
     .small { margin-top:16px; font-size: 14px; opacity: 0.8; }
-    textarea { width: 100%; height: 220px; margin-top: 12px; }
+    textarea { width: 100%; height: 240px; margin-top: 12px; }
   </style>
 </head>
 <body>
   <h2>Email Draft</h2>
-  <p>Tap the button to open your email app with a pre-filled draft.</p>
+  <p>Tap a button to open your email app with a pre-filled draft.</p>
 
-  <a id="btn" class="btn" href="#">Open Email Draft</a>
+  <a class="btn" href="#" onclick="openDraft(0); return false;">Open Draft 1</a>
+  <a class="btn" href="#" onclick="openDraft(1); return false;">Open Draft 2</a>
+  <a class="btn" href="#" onclick="openDraft(2); return false;">Open Draft 3</a>
+  <a class="btn" href="#" onclick="openDraft(3); return false;">Open Draft 4</a>
+  <a class="btn" href="#" onclick="openDraft(4); return false;">Open Draft 5</a>
+  <a class="btn" href="#" onclick="openRandomDraft(); return false;">Open Random Draft</a>
 
   <div class="small">
     If your phone blocks opening the mail app, you can copy the text below and paste it manually.
@@ -25,14 +30,52 @@
   <script>
     const to = "info@masspeaceaction.org";
     const subject = "Please listen to the Iranian people";
-    const body = `NIAC is not representative of the Iranian people. They only want to preserve the regime and replace the Supreme Leader. They are directly lobbying for the Islamic Republic. This is not what the Iranian people want.
+
+    // 5 different versions, same core message, no new points added.
+    const drafts = [
+`NIAC is not representative of the Iranian people. They only want to preserve the regime and replace the Supreme Leader. They are directly lobbying for the Islamic Republic. This is not what the Iranian people want.
 Reza Pahlavi is the only righteous representative of the Iranian people. If you follow the news coming from the people themselves, you can hear them chanting, "Reza Pahlavi will return."
 Listen to the people.
-Don't let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`;
+Don't let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`,
 
-    const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    document.getElementById("btn").href = mailto;
-    document.getElementById("txt").value = body;
+`NIAC does not represent the Iranian people. Their goal is to preserve the regime while replacing the Supreme Leader. NIAC is directly lobbying for the Islamic Republic, and this is not what the Iranian people want.
+Reza Pahlavi is the only righteous representative of the Iranian people. If you follow what people themselves are saying, you can hear them chanting, "Reza Pahlavi will return."
+Listen to the people.
+Do not let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`,
+
+`NIAC is not representative of the Iranian people. They want to keep the regime and only change the Supreme Leader. They are directly lobbying for the Islamic Republic. This is not what the Iranian people want.
+Reza Pahlavi is the only righteous representative of the Iranian people. If you follow the news coming from the people themselves, you can hear them chanting, "Reza Pahlavi will return."
+Listen to the people.
+Don't let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`,
+
+`NIAC is not representative of the Iranian people. They only want to preserve the regime and replace the Supreme Leader. They lobby directly for the Islamic Republic. This is not what the Iranian people want.
+Reza Pahlavi is the only righteous representative of the Iranian people. If you follow the voices of the people themselves, you can hear them chanting, "Reza Pahlavi will return."
+Listen to the people.
+Don't let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`,
+
+`NIAC is not representative of the Iranian people. Their focus is preserving the regime and replacing the Supreme Leader. They are directly lobbying for the Islamic Republic. This is not what the Iranian people want.
+Reza Pahlavi is the only righteous representative of the Iranian people. If you follow the news coming from the people themselves, you can hear them chanting, "Reza Pahlavi will return."
+Listen to the people.
+Don't let NIAC destroy Iran and its people. Negar Mortazavi should not be interviewed. She is part of NIAC. Stop this now and listen to the Iranian people.`
+    ];
+
+    function buildMailto(body) {
+      return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function openDraft(i) {
+      const body = drafts[i];
+      document.getElementById("txt").value = body;
+      window.location.href = buildMailto(body);
+    }
+
+    function openRandomDraft() {
+      const i = Math.floor(Math.random() * drafts.length);
+      openDraft(i);
+    }
+
+    // Optional: show a random draft in the textbox on load (doesn't open email)
+    document.getElementById("txt").value = drafts[Math.floor(Math.random() * drafts.length)];
   </script>
 </body>
 </html>
